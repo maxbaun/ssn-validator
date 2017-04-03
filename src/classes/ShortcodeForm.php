@@ -15,18 +15,13 @@ class ShortcodeForm
 	// D3LB Form Shortcode
 	public static function callback($args, $content = "")
 	{
-		$list_id = 0;
 		$ajax_url = admin_url('admin-ajax.php');
-
-		if (isset($args['id'])) {
-			$list_id = (int)$args['id'];
-		}
 
 		// setup our output variable
 		$output = '
 			<div class="ssn-validator">
 				<form id="ssn_validator_form" name="ssn_validator_form" class="ssn-validator-form" method="post"
-					action="/">
+					action="/5-2/">
 					<div class="ssn-validator-form-inner">
 						<label>Enter Social Security Number</label>
 						<div class="ssn-validator-input-container inline-container inputs-container">

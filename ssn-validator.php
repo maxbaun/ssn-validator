@@ -14,4 +14,5 @@ require_once plugin_dir_path(__FILE__) . 'src/setup.php';
 require_once plugin_dir_path(__FILE__) . 'src/config.php';
 require_once plugin_dir_path(__FILE__) . 'src/assets/JsonManifest.php';
 require_once plugin_dir_path(__FILE__) . 'src/classes/ShortcodeForm.php';
+require_once plugin_dir_path(__FILE__) . 'src/classes/ShortcodeResults.php';
 require_once plugin_dir_path(__FILE__) . 'src/classes/GoogleRecaptcha.php';
