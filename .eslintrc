@@ -1,0 +1,21 @@
+{
+    "extends": "xo",
+    "rules": {
+        "key-spacing": 0,
+        "no-multi-spaces": 0,
+        "no-multiple-empty-lines": 0,
+        "new-cap": [
+            "error",
+            {
+                "capIsNew": false
+            }
+        ]
+    },
+    "env": {
+        "node" : true,
+        "es6"  : true
+    },
+    "globals": {
+        "jQuery" : true
+    }
+}

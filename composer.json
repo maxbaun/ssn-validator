@@ -1,0 +1,15 @@
+{
+    "name": "maxbaun/ssn",
+    "description": "SSN Lookup Plugin for Wordpress",
+    "type": "project",
+    "require-dev": {
+        "squizlabs/php_codesniffer": "^2.8"
+    },
+    "authors": [
+        {
+            "name": "Max Baun",
+            "email": "max@d3applications.com"
+        }
+    ],
+    "require": {}
+}
