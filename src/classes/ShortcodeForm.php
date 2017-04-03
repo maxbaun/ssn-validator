@@ -2,6 +2,8 @@
 
 namespace D3\SSN\Shortcodes;
 
+use D3\SSN\Recaptcha;
+
 class ShortcodeForm
 {
 	public static function init()
@@ -40,11 +42,17 @@ class ShortcodeForm
 								class="ssn-validator-input ssn-validator-input-second"
 								maxlength="2"
 								/>
-							<small class="ssn-validator-form-text"></small>
+							<small id="ssn_validator_form_response" class="ssn-validator-form-text"></small>
 						</div>
 						<div class="ssn-validator-input-container inline-container submit-container">
-							<input type="submit" name="ssn_validator_submit" value="Search"/>
+							<input
+								class="ssn-validator-input"
+								type="submit"
+								name="ssn_validator_submit"
+								value="Search"
+								/>
 						</div>
+						'.Recaptcha::render().'
 					</div>
 				</form>
 			</div>

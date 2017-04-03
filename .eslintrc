@@ -20,7 +20,8 @@
         "jquery": true
     },
     "globals": {
-        "wp": true
+        "wp": true,
+        "grecaptcha": true
     },
     "plugins": [
         "import",

@@ -34,25 +34,50 @@ function validateForm() {
 
 	if (containsLetters(firstInput.val()) || firstInput.val().length !== 3) {
 		firstInput.focus();
-		formError('Please enter a valid Social Security Number');
+		formError(firstInput, 'Please enter a valid Social Security Number');
 		return false;
 	}
 
 	if (containsLetters(secondInput.val()) || secondInput.val().length !== 2) {
 		secondInput.focus();
-		formError('Please enter a valid Social Security Number');
+		formError(secondInput, 'Please enter a valid Social Security Number');
+		return false;
+	}
+
+	if (!getRecaptcha()) {
+		formError('Please check the recaptcha');
 		return false;
 	}
 
 	return true;
 }
 
+function getRecaptcha() {
+	if (grecaptcha && grecaptcha.getResponse() !== '') {
+		return grecaptcha.getResponse();
+	}
+
+	return null;
+}
+
 function formError(error) {
-	const formText = jQuery('.ssn-validator-form-text').first();
+	const formText = jQuery('#ssn_validator_form_response').first();
 	formText.text(error);
 	formText.addClass('error');
 	formText.addClass('active');
 }
+
+// function inputError(input, error) {
+// 	const target = input.nextAll('.ssn-validator-form-text').first();
+//
+// 	if (!target) {
+// 		return;
+// 	}
+//
+// 	target.text(error);
+// 	target.addClass('error');
+// 	target.addClass('active');
+// }
 
 function resetFormText() {
 	const formText = jQuery('.ssn-validator-form-text').first();

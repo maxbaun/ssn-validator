@@ -23,4 +23,5 @@ add_action('wp_enqueue_scripts', function () {
 	}
 
 	wp_enqueue_script('sage/main.js', Config::assetPath('scripts/main.js'), ['jquery'], null, true);
+	wp_enqueue_script('google/recaptcha', 'https://www.google.com/recaptcha/api.js', null, true);
 }, 100);
