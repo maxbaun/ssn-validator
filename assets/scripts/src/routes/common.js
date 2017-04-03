@@ -34,13 +34,13 @@ function validateForm() {
 
 	if (containsLetters(firstInput.val()) || firstInput.val().length !== 3) {
 		firstInput.focus();
-		formError(firstInput, 'Please enter a valid Social Security Number');
+		formError('Please enter a valid Social Security Number');
 		return false;
 	}
 
 	if (containsLetters(secondInput.val()) || secondInput.val().length !== 2) {
 		secondInput.focus();
-		formError(secondInput, 'Please enter a valid Social Security Number');
+		formError('Please enter a valid Social Security Number');
 		return false;
 	}
 

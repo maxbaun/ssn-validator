@@ -2,6 +2,8 @@
 
 namespace D3\SSN\Shortcodes;
 
+use D3\SSN\Admin\AdminSettings;
+
 class ShortcodeForm
 {
 	public static function init()
@@ -14,6 +16,8 @@ class ShortcodeForm
 	public static function callback($args, $content = "")
 	{
 		$label = (isset($args['label'])) ? $args['label'] : 'Enter Social Security Number';
+		$actionPageId = AdminSettings::getOption('ssn_validator_results_page');
+		$formAction = get_page_link($actionPageId);
 
 		$ajax_url = admin_url('admin-ajax.php');
 

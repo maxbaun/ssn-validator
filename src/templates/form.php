@@ -6,7 +6,7 @@ use D3\SSN\Recaptcha;
 
 <div class="ssn-validator">
 	<form id="ssn_validator_form" name="ssn_validator_form" class="ssn-validator-form" method="post"
-		action="/5-2/">
+		action="<?php echo $formAction; ?>">
 		<div class="ssn-validator-form-inner">
 			<label>
 				<?php
