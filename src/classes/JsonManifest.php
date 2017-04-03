@@ -1,6 +1,6 @@
 <?php
 
-namespace D3\SSN\Assets;
+namespace D3\SSN;
 
 /**
  * Class JsonManifest

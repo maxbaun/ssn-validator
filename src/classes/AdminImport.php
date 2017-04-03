@@ -6,13 +6,9 @@ class AdminImport
 {
 	public static function renderPage()
 	{
-		$output = '
-			<div class="wrap">
-				<h2>SSN Validator Import</h2>
-				<p>Page description....</p>
-			</div>
-		';
-
-		echo force_balance_tags($output);
+		ob_start();
+		include_once(plugin_dir_path(dirname(__FILE__)) . 'templates/admin-import.php');
+		$output = ob_get_clean();
+		echo $output;
 	}
 }

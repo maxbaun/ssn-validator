@@ -24,10 +24,18 @@ class AdminMenu
 		add_submenu_page(
 			$topMenuItem,
 			'',
-			'Import ',
+			'Import',
 			'manage_options',
 			'ssn_validator_admin_page_import',
 			array('D3\SSN\Admin\AdminImport', 'renderPage')
+		);
+		add_submenu_page(
+			$topMenuItem,
+			'',
+			'Export',
+			'manage_options',
+			'ssn_validator_admin_page_export',
+			array('D3\SSN\Admin\AdminExport', 'renderPage')
 		);
 	}
 }
