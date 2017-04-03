@@ -10,3 +10,9 @@ and shows information about when/where that social security number was issued.
 - Shortcode that will embed a form to enter and submit an SSN
 - Shortcode that will show the results of the search
 - Ability to upload a CSV to import data into the system
+
+@TODO -
+- plugin options
+-- recaptcha code
+-- search page
+-- results page

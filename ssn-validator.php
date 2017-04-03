@@ -16,3 +16,6 @@ require_once plugin_dir_path(__FILE__) . 'src/assets/JsonManifest.php';
 require_once plugin_dir_path(__FILE__) . 'src/classes/ShortcodeForm.php';
 require_once plugin_dir_path(__FILE__) . 'src/classes/ShortcodeResults.php';
 require_once plugin_dir_path(__FILE__) . 'src/classes/GoogleRecaptcha.php';
+require_once plugin_dir_path(__FILE__) . 'src/classes/AdminMenu.php';
+require_once plugin_dir_path(__FILE__) . 'src/classes/AdminSettings.php';
+require_once plugin_dir_path(__FILE__) . 'src/classes/AdminImport.php';

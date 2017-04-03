@@ -5,6 +5,7 @@ namespace D3\SSN;
 use D3\SSN\Assets\JsonManifest;
 use D3\SSN\Shortcodes\ShortcodeForm;
 use D3\SSN\Shortcodes\ShortcodeResults;
+use D3\SSN\Admin\AdminMenu;
 
 add_action('init', function () {
 	$paths = [
@@ -17,6 +18,7 @@ add_action('init', function () {
 
 	ShortcodeForm::init();
 	ShortcodeResults::init();
+	AdminMenu::init();
 });
 
 add_action('wp_enqueue_scripts', function () {
