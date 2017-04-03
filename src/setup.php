@@ -3,6 +3,7 @@
 namespace D3\SSN;
 
 use D3\SSN\Assets\JsonManifest;
+use D3\SSN\Shortcodes\ShortcodeForm;
 
 add_action('init', function () {
 	$paths = [
@@ -12,6 +13,8 @@ add_action('init', function () {
 
 	$manifest = new JsonManifest("{$paths['dir.plugin']}dist/assets.json", "{$paths['uri.plugin']}/dist");
 	Config::setManifest($manifest);
+
+	ShortcodeForm::init();
 });
 
 add_action('wp_enqueue_scripts', function () {
