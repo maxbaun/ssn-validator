@@ -12,7 +12,4 @@ and shows information about when/where that social security number was issued.
 - Ability to upload a CSV to import data into the system
 
 @TODO -
-- plugin options
--- recaptcha code
--- search page
--- results page
+- label attribute for search form shortcode
