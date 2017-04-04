@@ -18,6 +18,7 @@ use D3\SSN\Recaptcha;
 					type="text"
 					name="ssn_validator_first"
 					class="ssn-validator-input ssn-validator-input-first" maxlength="3"
+					value="<?php echo $first; ?>"
 					/>
 				<span class="ssn-validator-input-separator">-</span>
 				<input
@@ -25,6 +26,7 @@ use D3\SSN\Recaptcha;
 					name="ssn_validator_second"
 					class="ssn-validator-input ssn-validator-input-second"
 					maxlength="2"
+					value="<?php echo $second; ?>"
 					/>
 				<small id="ssn_validator_form_response" class="ssn-validator-form-text"></small>
 			</div>

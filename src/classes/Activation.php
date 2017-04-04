@@ -22,7 +22,7 @@ class Activation
 				ssn varchar(16) NOT NULL,
 				state varchar(50) NOT NULL,
 				first_issued varchar(10) NOT NULL,
-				last_Issued varchar(10) NOT NULL,
+				last_issued varchar(10) NOT NULL,
 				age varchar(50) NOT NULL,
 				UNIQUE KEY id (id),
 				UNIQUE KEY ssn (ssn)

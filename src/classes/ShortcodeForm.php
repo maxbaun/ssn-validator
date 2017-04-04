@@ -15,6 +15,9 @@ class ShortcodeForm
 	// D3LB Form Shortcode
 	public static function callback($args, $content = "")
 	{
+		$first = (isset($_POST['ssn_validator_first'])) ? $_POST['ssn_validator_first'] : '';
+		$second = (isset($_POST['ssn_validator_second'])) ? $_POST['ssn_validator_second'] : '';
+
 		$label = (isset($args['label'])) ? $args['label'] : 'Enter Social Security Number';
 		$actionPageId = AdminSettings::getOption('ssn_validator_results_page');
 		$formAction = get_page_link($actionPageId);

@@ -1,0 +1,8 @@
+.ssn-validator-results {
+	max-width: 400px;
+	table{
+		tr *:last-child {
+			text-align: right;
+		}
+	}
+}

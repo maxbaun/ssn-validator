@@ -59,6 +59,21 @@ class SSNData
 
 		$data = $wpdb->get_results($query);
 
+		$data = self::formatDataForReturn($data);
+
 		return $data;
+	}
+
+	private static function formatDataForReturn($data)
+	{
+		$return = array();
+
+		foreach ($data as $d) {
+			$d->state = str_replace('-', ' ', $d->state);
+			$d->state = ucwords($d->state);
+			$return[] = $d;
+		}
+
+		return $return;
 	}
 }

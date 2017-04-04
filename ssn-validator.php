@@ -26,6 +26,7 @@ require_once plugin_dir_path(__FILE__) . 'src/classes/SSNData.php';
 require_once plugin_dir_path(__FILE__) . 'src/classes/Export.php';
 require_once plugin_dir_path(__FILE__) . 'src/classes/Import.php';
 require_once plugin_dir_path(__FILE__) . 'src/classes/Parser.php';
+require_once plugin_dir_path(__FILE__) . 'src/classes/Validation.php';
 
 use D3\SSN;
 use D3\SSN\Config;
@@ -35,6 +36,7 @@ use D3\SSN\Import;
 use D3\SSN\Activation;
 use D3\SSN\JsonManifest;
 use D3\SSN\SSNData;
+use D3\SSN\Validation;
 use D3\SSN\Shortcodes\ShortcodeForm;
 use D3\SSN\Shortcodes\ShortcodeResults;
 use D3\SSN\Admin\AdminMenu;
@@ -56,6 +58,7 @@ add_action('init', function () {
 	ShortcodeResults::init();
 	AdminMenu::init();
 	AdminSettings::init();
+	Validation::init();
 });
 
 register_activation_hook(__FILE__, function () {
