@@ -8,8 +8,22 @@ export default {
 		parseCsv(elemFileId, mediaForm, contentForm);
 		showSubmit('#ssn_validator_import_form_data');
 		submitHandler('#ssn_validator_import_form_data');
+		checkAll('#ssn_validator_import_form_data');
 	}
 };
+
+function checkAll(formSelector) {
+	jQuery(document).on('click', formSelector + ' .check-all', e => {
+		const target = e.target;
+		const checked = jQuery(target).first().attr('checked');
+
+		if (checked) {
+			jQuery('[name="ssn_validator_import_rows[]"]:not(:checked)', jQuery(formSelector)).trigger('click');
+		} else {
+			jQuery('[name="ssn_validator_import_rows[]"]:checked', jQuery(formSelector)).trigger('click');
+		}
+	});
+}
 
 function showSubmit(form) {
 	jQuery(document).on('change', `${form} .ssn-validator-input`, () => {
