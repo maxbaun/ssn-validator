@@ -21,7 +21,9 @@
     },
     "globals": {
         "wp": true,
-        "grecaptcha": true
+        "grecaptcha": true,
+        "alert": true,
+        "SSNVALIDATOR": true
     },
     "plugins": [
         "import",

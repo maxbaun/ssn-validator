@@ -24,7 +24,8 @@ class Activation
 				first_issued varchar(10) NOT NULL,
 				last_Issued varchar(10) NOT NULL,
 				age varchar(50) NOT NULL,
-				UNIQUE KEY id (id)
+				UNIQUE KEY id (id),
+				UNIQUE KEY ssn (ssn)
 			) $charset;";
 
 			require_once(ABSPATH . 'wp-admin/includes/upgrade.php');

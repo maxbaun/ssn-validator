@@ -9,6 +9,7 @@ class Assets
 	public static function init()
 	{
 		add_action('wp_enqueue_scripts', array('D3\SSN\Assets', 'registerAssets'), 100);
+		add_action('admin_enqueue_scripts', array('D3\SSN\Assets', 'registerAdminAssets'), 100);
 	}
 
 	public static function registerAssets()
@@ -19,5 +20,15 @@ class Assets
 
 		wp_enqueue_script('sage/main.js', Config::assetPath('scripts/main.js'), ['jquery'], null, true);
 		wp_enqueue_script('google/recaptcha', 'https://www.google.com/recaptcha/api.js', null, true);
+	}
+
+	public static function registerAdminAssets()
+	{
+		wp_register_script('sage/main.js', Config::assetPath('scripts/main.js'), ['jquery'], null, true);
+		$translation_array = array(
+			'ajaxUrl' => admin_url('admin-ajax.php')
+		);
+		wp_localize_script('sage/main.js', 'SSNVALIDATOR', $translation_array);
+		wp_enqueue_script('sage/main.js');
 	}
 }

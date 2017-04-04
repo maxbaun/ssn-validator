@@ -11,6 +11,7 @@ License: GPL2
 */
 
 require_once plugin_dir_path(__FILE__) . 'src/config.php';
+require_once plugin_dir_path(__FILE__) . 'src/classes/Ajax.php';
 require_once plugin_dir_path(__FILE__) . 'src/classes/JsonManifest.php';
 require_once plugin_dir_path(__FILE__) . 'src/classes/ShortcodeForm.php';
 require_once plugin_dir_path(__FILE__) . 'src/classes/ShortcodeResults.php';
@@ -23,11 +24,13 @@ require_once plugin_dir_path(__FILE__) . 'src/classes/AdminImport.php';
 require_once plugin_dir_path(__FILE__) . 'src/classes/AdminExport.php';
 require_once plugin_dir_path(__FILE__) . 'src/classes/SSNData.php';
 require_once plugin_dir_path(__FILE__) . 'src/classes/Export.php';
+require_once plugin_dir_path(__FILE__) . 'src/classes/Import.php';
 
 use D3\SSN;
 use D3\SSN\Config;
 use D3\SSN\Assets;
 use D3\SSN\Export;
+use D3\SSN\Import;
 use D3\SSN\Activation;
 use D3\SSN\JsonManifest;
 use D3\SSN\SSNData;
@@ -47,6 +50,7 @@ add_action('init', function () {
 
 	Assets::init();
 	Export::init();
+	Import::init();
 	ShortcodeForm::init();
 	ShortcodeResults::init();
 	AdminMenu::init();

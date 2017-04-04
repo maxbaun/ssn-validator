@@ -11,7 +11,6 @@ class Export
 
 	public static function exportLink()
 	{
-		$ajaxUrl = admin_url('admin-ajax.php');
 		$ajaxUrl = "admin-ajax.php?action=ssn_validator_export_data";
 		return esc_url($ajaxUrl);
 	}

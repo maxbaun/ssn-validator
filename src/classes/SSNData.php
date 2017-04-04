@@ -4,6 +4,8 @@ namespace D3\SSN;
 
 class SSNData
 {
+	private static $tableName = "ssn_validator_data";
+
 	public static function getAll()
 	{
 		global $wpdb;
@@ -22,6 +24,17 @@ class SSNData
 		return self::query();
 	}
 
+	public static function insertRow($data)
+	{
+		global $wpdb;
+		$tableName = $wpdb->prefix . self::$tableName;
+
+		$wpdb->insert(
+			$tableName,
+			$data
+		);
+	}
+
 	public static function getRowBySSN($ssn)
 	{
 		return self::query(array('ssn' => $ssn));
@@ -30,7 +43,7 @@ class SSNData
 	private static function query($args = array())
 	{
 		global $wpdb;
-		$tableName = $wpdb->prefix . "ssn_validator_data";
+		$tableName = $wpdb->prefix . self::$tableName;
 
 		$query = "SELECT * FROM $tableName";
 
