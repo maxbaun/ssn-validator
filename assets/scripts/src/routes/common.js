@@ -7,21 +7,22 @@ export default {
 		const secondInput = jQuery('.ssn-validator-form input[name="ssn_validator_second"]').first();
 		const form = jQuery('.ssn-validator-form').first();
 		const mapId = 'ssn_validator_result_map';
+		const state = jQuery('#ssn_validator_map_address').val();
 
-		initMap(mapId);
+		initMap(mapId, state);
 		keyUp(firstInput);
 		keyUp(secondInput);
 		submit(form);
 	}
 };
 
-function initMap(mapId) {
-	if (!jQuery(`#${mapId}`).length) {
+function initMap(mapId, state) {
+	if (!jQuery(`#${mapId}`).length || !state) {
 		return;
 	}
 
 	const address = {
-		address: 'Massachusetts'
+		address: state
 	};
 
 	return getLongLat(address)

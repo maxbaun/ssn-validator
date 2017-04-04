@@ -1,6 +1,7 @@
 <div class="ssn-validator-wrapper">
 	<div class="ssn-validator-result-block">
 		<h5 class="ssn-validator-banner">Results</h5>
+		<input type="hidden" id="ssn_validator_map_address" name="ssn_validator_map_address" value="<?php echo $data->state; ?>">
 		<div class="ssn-validator-results">
 			<table class="table-responsive">
 				<tbody>
