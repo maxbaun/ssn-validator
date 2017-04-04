@@ -20,6 +20,10 @@ class AdminSettings
 			array(
 				'id' => 'ssn_validator_google_recaptcha',
 				'default' => ''
+			),
+			array(
+				'id' => 'ssn_validator_google_maps_api_key',
+				'default' => ''
 			)
 		);
 

@@ -7,7 +7,7 @@ $sm-max : ($md - 1);
 $md-max : ($lg - 1);
 
 @mixin mobile{
-    @media (max-width: #{$xs-max}){
+    @media (max-width: #{$sm-max}){
         @content;
     }
 }

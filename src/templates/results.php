@@ -28,7 +28,7 @@
 	<div class="ssn-validator-result-block">
 		<h5 class="ssn-validator-banner">Map</h5>
 		<div class="ssn-validator-map">
-
+			<div id="ssn_validator_result_map"></div>
 		</div>
 	</div>
 

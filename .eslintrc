@@ -23,7 +23,8 @@
         "wp": true,
         "grecaptcha": true,
         "alert": true,
-        "SSNVALIDATOR": true
+        "SSNVALIDATOR": true,
+        "google": true
     },
     "plugins": [
         "import",

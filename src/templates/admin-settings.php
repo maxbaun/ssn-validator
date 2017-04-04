@@ -44,6 +44,19 @@ use D3\SSN\Admin\AdminSettings;
 						<p class="description">Your <a href="https://www.google.com/recaptcha/admin">Google Recaptcha</a> site key.</p>
 					</td>
 				</tr>
+				<tr>
+					<th scope="row"><label for="ssn_validator_google_maps_api_key">Google Maps API Key</label></th>
+					<td>
+						<input
+							type="text"
+							class="widefat"
+							name="ssn_validator_google_maps_api_key"
+							id="ssn_validator_google_maps_api_key"
+							value="<?php echo $options['ssn_validator_google_maps_api_key']; ?>"
+							/>
+						<p class="description">Your <a href="https://developers.google.com/maps/documentation/javascript/">Google Maps</a> API Key.</p>
+					</td>
+				</tr>
 			</tbody>
 		</table>
 		<p class="submit">

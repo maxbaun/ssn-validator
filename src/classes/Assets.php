@@ -3,6 +3,8 @@
 namespace D3\SSN;
 
 use D3\SSN\Config;
+use D3\SSN\Helpers;
+use D3\SSN\Admin\AdminSettings;
 
 class Assets
 {
@@ -18,8 +20,14 @@ class Assets
 			wp_enqueue_style('sage/main.css', Config::assetPath('styles/main.css'), false, null);
 		}
 
+		if (Helpers::isResultsPage()) {
+			$googleMapsApiKey = AdminSettings::getOption('ssn_validator_google_maps_api_key');
+			$googleMaps = "https://maps.googleapis.com/maps/api/js?key=$googleMapsApiKey";
+			wp_enqueue_script('google/maps', $googleMaps, array(), null, true);
+		}
+
 		self::registerMainScript();
-		wp_enqueue_script('google/recaptcha', 'https://www.google.com/recaptcha/api.js', null, true);
+		wp_enqueue_script('google/recaptcha', 'https://www.google.com/recaptcha/api.js', array(), null, true);
 	}
 
 	public static function registerAdminAssets()

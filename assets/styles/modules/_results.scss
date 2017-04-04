@@ -7,6 +7,8 @@
 	max-width: 46%;
 	width: 545px;
 	display: inline-block;
+	overflow: hidden;
+	vertical-align: top;
 
 	@include mobile () {
 		margin: 15px 0;
@@ -43,4 +45,9 @@
 
 .ssn-validator-result-error{
 	margin-bottom: 10px;
+}
+
+#ssn_validator_result_map {
+	height: 100%;
+	width: 100%;
 }

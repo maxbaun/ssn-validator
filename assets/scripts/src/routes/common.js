@@ -6,12 +6,62 @@ export default {
 		const firstInput = jQuery('.ssn-validator-form input[name="ssn_validator_first"]').first();
 		const secondInput = jQuery('.ssn-validator-form input[name="ssn_validator_second"]').first();
 		const form = jQuery('.ssn-validator-form').first();
+		const mapId = 'ssn_validator_result_map';
 
+		initMap(mapId);
 		keyUp(firstInput);
 		keyUp(secondInput);
 		submit(form);
 	}
 };
+
+function initMap(mapId) {
+	if (!jQuery(`#${mapId}`).length) {
+		return;
+	}
+
+	const address = {
+		address: 'Massachusetts'
+	};
+
+	return getLongLat(address)
+		.then(renderMap(mapId))
+		.then(setMapResizeListener);
+}
+
+function getLongLat(address) {
+	const geocoder = new google.maps.Geocoder();
+
+	return new Promise((resolve, reject) => {
+		geocoder.geocode(address, (results, status) => {
+			if (status !== 'OK') {
+				reject(status);
+			}
+			resolve({
+				center: {
+					lat: results[0].geometry.location.lat(),
+					lng: results[0].geometry.location.lng()
+				},
+				zoom: 5
+			});
+		});
+	});
+}
+
+function renderMap(mapId) {
+	return mapData => {
+		console.log(mapData);
+		return new google.maps.Map(document.getElementById(mapId), mapData);
+	};
+}
+
+function setMapResizeListener(map) {
+	google.maps.event.addDomListener(window, 'resize', () => {
+		var center = map.getCenter();
+		google.maps.event.trigger(map, 'resize');
+		map.setCenter(center);
+	});
+}
 
 function keyUp(input) {
 	focusNext(input);

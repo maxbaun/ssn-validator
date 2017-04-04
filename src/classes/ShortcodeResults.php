@@ -17,6 +17,10 @@ class ShortcodeResults
 	// D3LB Form Shortcode
 	public static function callback($args, $content = "")
 	{
+		if (!isset($_POST['ssn_validator_first']) && !isset($_POST['ssn_validator_second'])) {
+			return false;
+		}
+
 		$first = (isset($_POST['ssn_validator_first'])) ? $_POST['ssn_validator_first'] : '';
 		$second = (isset($_POST['ssn_validator_second'])) ? $_POST['ssn_validator_second'] : '';
 
