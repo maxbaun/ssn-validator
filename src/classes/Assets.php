@@ -18,13 +18,18 @@ class Assets
 			wp_enqueue_style('sage/main.css', Config::assetPath('styles/main.css'), false, null);
 		}
 
-		wp_enqueue_script('sage/main.js', Config::assetPath('scripts/main.js'), ['jquery'], null, true);
+		self::registerMainScript();
 		wp_enqueue_script('google/recaptcha', 'https://www.google.com/recaptcha/api.js', null, true);
 	}
 
 	public static function registerAdminAssets()
 	{
 		wp_enqueue_script('jquery-effects-core');
+		self::registerMainScript();
+	}
+
+	private static function registerMainScript()
+	{
 		wp_register_script('sage/main.js', Config::assetPath('scripts/main.js'), ['jquery'], null, true);
 		$translation_array = array(
 			'ajaxUrl' => admin_url('admin-ajax.php')

@@ -4,6 +4,7 @@ namespace D3\SSN\Shortcodes;
 
 use D3\SSN\SSNData;
 use D3\SSN\Admin\AdminSettings;
+use D3\SSN\Helpers;
 
 class ShortcodeResults
 {
@@ -19,7 +20,7 @@ class ShortcodeResults
 		$first = (isset($_POST['ssn_validator_first'])) ? $_POST['ssn_validator_first'] : '';
 		$second = (isset($_POST['ssn_validator_second'])) ? $_POST['ssn_validator_second'] : '';
 
-		$ssn = self::buildSSN($first, $second);
+		$ssn = Helpers::buildSSNString($first, $second);
 		$data = SSNData::getRowBySSN($ssn);
 
 		if (!count($data)) {
@@ -51,10 +52,5 @@ class ShortcodeResults
 		ob_end_clean();
 
 		return force_balance_tags($output);
-	}
-
-	private static function buildSSN($first, $second)
-	{
-		return "$first-$second-xxxx";
 	}
 }

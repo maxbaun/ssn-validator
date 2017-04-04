@@ -14,15 +14,50 @@ export default {
 };
 
 function keyUp(input) {
-	validateInput(input);
 	focusNext(input);
 }
 
 function submit(form) {
+	let valid = false;
 	form.submit(e => {
-		if (!validateForm()) {
-			e.preventDefault();
+		if (valid) {
+			return true;
 		}
+
+		e.preventDefault();
+
+		return validateForm()
+			.then(validateSsn)
+			.then(() => {
+				valid = true;
+				form.trigger('submit');
+			})
+			.catch(err => {
+				formError(err);
+			});
+	});
+}
+
+function validateSsn() {
+	const first = jQuery('.ssn-validator-form input[name="ssn_validator_first"]').first().val();
+	const second = jQuery('.ssn-validator-form input[name="ssn_validator_second"]').first().val();
+
+	const action = `${SSNVALIDATOR.ajaxUrl}`;
+	const formData = {
+		first,
+		second,
+		action: 'ssn_validator_validate_ssn'
+	};
+	return new Promise((resolve, reject) => {
+		jQuery.ajax({
+			url: action,
+			method: 'post',
+			dataType: 'json',
+			data: formData,
+			success: response => {
+				return (response.success) ? resolve(response.data) : reject(response.message);
+			}
+		});
 	});
 }
 
@@ -31,25 +66,26 @@ function validateForm() {
 	const secondInput = jQuery('.ssn-validator-form input[name="ssn_validator_second"]').first();
 
 	resetFormText();
+	return new Promise((resolve, reject) => {
+		if (containsLetters(firstInput.val()) || firstInput.val().length !== 3) {
+			firstInput.focus();
+			reject('Please enter a valid Social Security Number');
+			return false;
+		}
 
-	if (containsLetters(firstInput.val()) || firstInput.val().length !== 3) {
-		firstInput.focus();
-		formError('Please enter a valid Social Security Number');
-		return false;
-	}
+		if (containsLetters(secondInput.val()) || secondInput.val().length !== 2) {
+			secondInput.focus();
+			reject('Please enter a valid Social Security Number');
+			return false;
+		}
 
-	if (containsLetters(secondInput.val()) || secondInput.val().length !== 2) {
-		secondInput.focus();
-		formError('Please enter a valid Social Security Number');
-		return false;
-	}
+		if (!getRecaptcha()) {
+			reject('Please check the recaptcha');
+			return false;
+		}
 
-	if (!getRecaptcha()) {
-		formError('Please check the recaptcha');
-		return false;
-	}
-
-	return true;
+		resolve(true);
+	});
 }
 
 function getRecaptcha() {
@@ -67,35 +103,11 @@ function formError(error) {
 	formText.addClass('active');
 }
 
-// function inputError(input, error) {
-// 	const target = input.nextAll('.ssn-validator-form-text').first();
-//
-// 	if (!target) {
-// 		return;
-// 	}
-//
-// 	target.text(error);
-// 	target.addClass('error');
-// 	target.addClass('active');
-// }
-
 function resetFormText() {
 	const formText = jQuery('.ssn-validator-form-text').first();
 	formText.text('');
 	formText.removeClass('error');
 	formText.removeClass('active');
-}
-
-function validateInput(input) {
-	input.keyup(e => {
-		const target = e.srcElement || e.target;
-		const val = target.value;
-
-		if (containsLetters(val)) {
-			// let newVal = val.replace(/\D/g, '');
-			// jQuery(target).val(newVal);
-		}
-	});
 }
 
 function containsLetters(value) {

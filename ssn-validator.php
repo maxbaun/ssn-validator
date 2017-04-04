@@ -27,6 +27,7 @@ require_once plugin_dir_path(__FILE__) . 'src/classes/Export.php';
 require_once plugin_dir_path(__FILE__) . 'src/classes/Import.php';
 require_once plugin_dir_path(__FILE__) . 'src/classes/Parser.php';
 require_once plugin_dir_path(__FILE__) . 'src/classes/Validation.php';
+require_once plugin_dir_path(__FILE__) . 'src/classes/Helpers.php';
 
 use D3\SSN;
 use D3\SSN\Config;
