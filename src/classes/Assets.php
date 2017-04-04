@@ -24,6 +24,7 @@ class Assets
 
 	public static function registerAdminAssets()
 	{
+		wp_enqueue_script('jquery-effects-core');
 		wp_register_script('sage/main.js', Config::assetPath('scripts/main.js'), ['jquery'], null, true);
 		$translation_array = array(
 			'ajaxUrl' => admin_url('admin-ajax.php')

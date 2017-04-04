@@ -16,18 +16,15 @@
 						</div>
 
 						<p class="description">Select a file to upload. <br/>CSV Format: <strong>STATE,SSN,FIRSTISSUED,LASTISSUED,ESTAGE</strong></p>
+						<p>
+							<input style="display:none;" type="submit" name="submit" id="submit" class="button button-primary" value="Import">
+						</p>
 					</td>
 				</tr>
 			</tbody>
 		</table>
+		<div class="progress-bar">
+			<span class="progress-label"></span>
+		</div>
 	</form>
-
-	<form id="ssn_validator_import_form_data" method="post" action="<?php echo $actionUrl; ?>">
-		<table class="form-table">
-			<tbody class="ssn-validator-import-content">
-
-			</tbody>
-		</table>
-		<p class="submit show-only-on-valid" style="display:none"><input type="submit" name="submit" id="submit" class="button button-primary" value="Import"></p>
-	</form>		
 </div>

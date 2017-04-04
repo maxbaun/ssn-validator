@@ -5,43 +5,60 @@ namespace D3\SSN;
 class Parser
 {
 	private $filename = '';
-	private $begin = 0;
-	private $chunk = 100;
+	private $start = 0;
+	private $end = 100;
 	private $data = array();
+	private $fileContents = array();
 
-	public function __construct($filename, $begin, $chunk)
+	public function __construct($filename, $start, $end)
 	{
+		$this->data = array();
 		$this->filename = $filename;
-		$this->begin = ((int)$begin === 0) ? 1 : (int)$begin;
-		$this->chunk = (int)$chunk;
+		$this->start = ((int)$start === 0) ? 1 : (int)$start;
+		$this->end = (int)$end;
+		$this->count = 0;
+		$contents = file_get_contents($this->filename);
+		$this->fileContents = explode("\n", $contents);
 	}
 
 	public function start()
 	{
-		$contents = file_get_contents($this->filename);
-		$rows = explode("\n", $contents);
-		$total = count($rows);
-
-		$firstRow = $rows[0];
-		$firstRowData = explode(",", $rows[0]);
+		$firstRow = $this->fileContents[0];
+		$firstRowData = explode(",", $this->fileContents[0]);
 		$firstRowCount = count($firstRowData);
 
 		for ($c=0; $c < $firstRowCount; $c++) {
 			$header[] = $firstRowData[$c];
 		}
 
-		for ($row = $this->begin; $row < $this->chunk + $this->begin; $row++) {
+		$t = $this->end;
+
+		if ($this->end === 0 || $this->end > $this->getTotal()) {
+			$t = $this->getTotal();
+		}
+
+		for ($row = $this->start; $row < $t; $row++) {
 			if ($row === $total - 1) {
 				break;
 			}
 
-			$data = explode(",", $rows[$row]);
-			$count = count($data);
+			$data = explode(",", $this->fileContents[$row]);
 
-			for ($c=0; $c < $count; $c++) {
-				$this->data[$row - 1][$header[$c]] = $data[$c];
-			}
+			$lineItem = array(
+				'state' => $data[0],
+				'ssn' => $data[1],
+				'first_issued' => $data[2],
+				'last_issued' => $data[3],
+				'age' => $data[4]
+			);
+
+			$this->data[] = $lineItem;
 		}
+	}
+
+	public function getTotal()
+	{
+		return count($this->fileContents) - 1;
 	}
 
 	public function getData()

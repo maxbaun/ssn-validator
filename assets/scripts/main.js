@@ -1,4 +1,6 @@
 import 'jquery';
+import 'jquery-ui-bundle';
+// import 'jquery-ui-bundle/jquery-ui.css';
 
 import Router from './src/utils/router';
 import common from './src/routes/common';

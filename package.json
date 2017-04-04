@@ -5,13 +5,13 @@
   "main": "index.js",
   "scripts": {
     "start": "webpack --hide-modules --watch --config webpack.config.js",
-	"build": "webpack --progress --config webpack.config.js",
+    "build": "webpack --progress --config webpack.config.js",
     "prod": "webpack --progress -p --config webpack.config.js"
   },
   "author": "",
   "license": "ISC",
   "devDependencies": {
-	"autoprefixer": "^6.7.7",
+    "autoprefixer": "^6.7.7",
     "browser-sync": "^2.18.8",
     "browsersync-webpack-plugin": "^0.5.3",
     "bs-html-injector": "^3.0.3",
@@ -20,7 +20,7 @@
     "copy-globs-webpack-plugin": "^0.2.0",
     "css-loader": "^0.27.3",
     "cssnano": "^3.10.0",
-	"eslint": "^3.19.0",
+    "eslint": "^3.19.0",
     "eslint-config-xo": "^0.17.0",
     "eslint-loader": "^1.7.0",
     "eslint-plugin-import": "^2.2.0",
@@ -42,5 +42,8 @@
     "webpack-hot-middleware": "^2.17.1",
     "webpack-merge": "^4.1.0",
     "yargs": "^7.0.2"
+  },
+  "dependencies": {
+    "jquery-ui-bundle": "^1.12.1"
   }
 }

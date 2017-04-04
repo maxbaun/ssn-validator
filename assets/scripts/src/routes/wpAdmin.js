@@ -1,73 +1,40 @@
+import AjaxManager from '../utils/ajaxManager';
+
 export default {
 	finalize() {
+		let manager = null;
 		const dataUploader = jQuery('.wp-uploader').first();
 		const mediaForm = jQuery('#ssn_validator_import_form_media').first();
-		const contentForm = jQuery('#ssn_validator_import_form_data').first();
 		const elemFileId = dataUploader.find('.fild-id');
-		uploader(dataUploader);
-		parseCsv(elemFileId, mediaForm, contentForm);
-		showSubmit('#ssn_validator_import_form_data');
-		submitHandler('#ssn_validator_import_form_data');
-		checkAll('#ssn_validator_import_form_data');
-	}
-};
+		const submitButton = jQuery('input[type="submit"]', mediaForm);
 
-function checkAll(formSelector) {
-	jQuery(document).on('click', formSelector + ' .check-all', e => {
-		const target = e.target;
-		const checked = jQuery(target).first().attr('checked');
+		elemFileId.change(e => {
+			const elem = jQuery(e.target);
 
-		if (checked) {
-			jQuery('[name="ssn_validator_import_rows[]"]:not(:checked)', jQuery(formSelector)).trigger('click');
-		} else {
-			jQuery('[name="ssn_validator_import_rows[]"]:checked', jQuery(formSelector)).trigger('click');
-		}
-	});
-}
-
-function showSubmit(form) {
-	jQuery(document).on('change', `${form} .ssn-validator-input`, () => {
-		setTimeout(() => {
-			if (isValid(jQuery(form))) {
-				jQuery('.show-only-on-valid', jQuery(form)).show();
-			} else {
-				jQuery('.show-only-on-valid', jQuery(form)).hide();
+			if (manager) {
+				manager.stop();
+				updateProgress(0);
 			}
-		}, 300);
-	});
-}
 
-function submitHandler(form) {
-	jQuery(document).on('submit', form, e => {
-		e.preventDefault();
-		const action = `${SSNVALIDATOR.ajaxUrl}?action=ssn_validator_import_data`;
-		const formData = jQuery(form).serialize();
-		const uploader = jQuery('.wp-uploader').first();
-
-		const elemFileUrl = uploader.find('.file-url');
-		const elemFileId = uploader.find('.fild-id');
-		const elemUploadText = uploader.find('.upload-text');
-
-		jQuery.ajax({
-			url: action,
-			method: 'post',
-			dataType: 'json',
-			data: formData,
-			success: response => {
-				if (response && response.status) {
-					elemFileUrl.val('');
-					elemFileId.val('');
-					elemUploadText.val('');
-					jQuery('.show-only-on-valid', jQuery(form)).hide();
-					jQuery('.ssn-validator-import-content', jQuery(form)).html('');
-					alert(response.message); // eslint-disable-line
-				} else {
-					alert(response.error); // eslint-disable-line no-alert
-				}
+			if (isValid(elem)) {
+				submitButton.show();
+			} else {
+				submitButton.hide();
 			}
 		});
-	});
-}
+
+		mediaForm.submit(e => {
+			manager = new AjaxManager(updateProgress);
+			e.preventDefault();
+			const elem = jQuery(e.target);
+			totalRequest(elem.serialize())
+				.then(buildChunks)
+				.then(buildRequests(manager));
+		});
+
+		uploader(dataUploader);
+	}
+};
 
 function uploader(uploader) {
 	if (!uploader) {
@@ -106,163 +73,102 @@ function uploader(uploader) {
 	});
 }
 
-function parseCsv(fileId, form, contentForm) {
-	fileId.bind('change', () => {
-		const elemFileUrl = form.find('.file-url');
-		const formData = form.serialize();
-		const action = `${SSNVALIDATOR.ajaxUrl}?action=ssn_validator_parse_csv`;
-		const elemContent = contentForm.find('.ssn-validator-import-content');
-
+function totalRequest(formData) {
+	const action = `${SSNVALIDATOR.ajaxUrl}?action=ssn_validator_get_total_csv_rows`;
+	return new Promise((resolve, reject) => {
 		jQuery.ajax({
 			url: action,
 			method: 'post',
 			dataType: 'json',
 			data: formData,
 			success: response => {
-				if (response && response.status) {
-					const html = getForm2Html(response.data);
-					elemContent.html(html);
-					contentForm.show();
-				} else {
-					fileId.val(0);
-					elemFileUrl.val(0);
-					alert(response.error); // eslint-disable-line no-alert
-				}
+				return (response.data) ? resolve(response.data) : reject(response.error);
 			}
 		});
 	});
 }
 
-function getForm2Html(data) {
-	let html = ``;
+function buildChunks(total) {
+	let perPage = 1000;
 
-	let selectState = getSelector('ssn_validator_state_column', data);
-	let selectSSN = getSelector('ssn_validator_ssn_column', data);
-	let selectFirstIssued = getSelector('ssn_validator_first_issued_column', data);
-	let selectLastIssued = getSelector('ssn_validator_last_issued_column', data);
-	let selectAge = getSelector('ssn_validator_age_column', data);
+	if (total < perPage) {
+		perPage = total;
+	}
 
-	let assignHtml = `
-		<p><label>State</label> ${selectState}</p>
-		<p><label>SSN</label> ${selectSSN}</p>
-		<p><label>First Issued</label> ${selectFirstIssued}</p>
-		<p><label>Last Issued</label> ${selectLastIssued}</p>
-		<p><label>Age</label> ${selectAge}</p>
-	`;
+	let groups = Math.ceil(total / perPage);
+	let chunks = [];
 
-	let row1 = formTableRow('Assign Data Column', assignHtml);
+	for (let x = 0; x < groups; x++) {
+		let chunk = {
+			min: (x * perPage),
+			max: (x + 1) * perPage
+		};
 
-	html += row1;
+		if (chunk.max > total) {
+			chunk.max = total;
+		}
 
-	let table = `<table class="wp-list-table fixed widefat striped"><thead>`;
-	let tr = `<tr>`;
-	let th = `<th scope="col" class="manage-column check-column"><label><input type="checkbox" class="check-all"></label></th>`;
-	tr += th;
+		chunks.push(chunk);
+	}
 
-	jQuery.each(data[0], key => {
-		let currentHeader = `<th scope="col">${key}</th>`;
-		tr += currentHeader;
-	});
+	return chunks;
+}
 
-	tr += `</tr>`;
+function buildRequests(manager) {
+	return chunks => {
+		if (!chunks.length) {
+			return null;
+		}
 
-	table += `${tr}</thead><tbody id="the-list">`;
+		updateProgress(0);
 
-	let rowId = 0;
-
-	jQuery.each(data, (key, row) => {
-		rowId++;
-
-		let currentRow = `
-			<tr>
-			<th scope="row" class=" check-column"><input type="checkbox" id="cb-select-${rowId}" name="ssn_validator_import_rows[]" class="ssn-validator-input" value="${rowId}" /></th>
-		`;
-
-		let columnId = 0;
-
-		jQuery.each(row, (key, value) => {
-			columnId++;
-
-			let fieldName = `s_${rowId}_${columnId}`;
-
-			let td = `<td>${value}<input type="hidden" name=${fieldName} class="ssn-validator-input" value="${value}" /></td>`;
-			currentRow += td;
+		chunks.forEach(chunk => {
+			manager.addRequest(getUploadOptions(chunk));
 		});
 
-		currentRow += `</tr>`;
-		table += currentRow;
+		manager.run();
+	};
+}
+
+function updateProgress(progress) {
+	const mediaForm = jQuery('#ssn_validator_import_form_media').first();
+	const progressBar = jQuery('.progress-bar', mediaForm);
+	const progressLabel = jQuery('.progress-label', mediaForm);
+	const percentage = `${Math.floor(progress)}%`;
+	const submitButton = jQuery('input[type="submit"]', mediaForm);
+
+	if (progress < 100) {
+		submitButton.attr('disabled', 'disabled');
+	} else {
+		submitButton.removeAttr('disabled');
+	}
+
+	progressLabel.text(percentage);
+	progressBar.progressbar({
+		value: progress,
+		change: () => {
+			progressLabel.text(percentage);
+		}
 	});
-
-	table += `</tbody></table>`;
-
-	let row2 = formTableRow('Select Data To Import', table, 'Select all of the rows you\'d like to import.');
-
-	html += row2;
-
-	return html;
 }
 
-function formTableRow(label, input, description) {
-	let row = `
-		<tr>
-			<th scope="row"><label>${label}</label></th>
-			<td>${input}
-	`;
+function getUploadOptions(chunk) {
+	const action = `${SSNVALIDATOR.ajaxUrl}?action=ssn_validator_parse_csv`;
+	const mediaForm = jQuery('#ssn_validator_import_form_media').first();
+	const fileid = jQuery('[name="ssn_validator_import_file_id"]', mediaForm);
 
-	if (description) {
-		row += `
-			<p class="description">${description}</p>
-		`;
-	}
-
-	row += `</td></tr>`;
-
-	return row;
+	return {
+		url: action,
+		method: 'post',
+		dataType: 'json',
+		data: {
+			fileid: fileid.val(),
+			start: chunk.min,
+			end: chunk.max
+		}
+	};
 }
 
-function getSelector(id, data) {
-	let select = `<select name="${id}" class="ssn-validator-input">`;
-	let columnId = 0;
-	let option = `<option value="">- Select One -</option>`;
-	select += option;
-
-	jQuery.each(data[0], key => {
-		columnId++;
-		option = `<option value="${columnId}">${columnId} ${key}</option>`;
-		select += option;
-	});
-
-	select += `</select>`;
-
-	return select;
-}
-
-function isValid(form) {
-	let valid = true;
-
-	if (form.find('[name="ssn_validator_import_rows[]"]:checked').length === 0) {
-		valid = false;
-	}
-
-	if (form.find('[name="ssn_validator_state_column"]').val() === '') {
-		valid = false;
-	}
-
-	if (form.find('[name="ssn_validator_ssn_column"]').val() === '') {
-		valid = false;
-	}
-
-	if (form.find('[name="ssn_validator_first_issued_column"]').val() === '') {
-		valid = false;
-	}
-
-	if (form.find('[name="ssn_validator_last_issued_column"]').val() === '') {
-		valid = false;
-	}
-
-	if (form.find('[name="ssn_validator_age_column"]').val() === '') {
-		valid = false;
-	}
-
-	return valid;
+function isValid(elem) {
+	return Boolean(elem.val());
 }
