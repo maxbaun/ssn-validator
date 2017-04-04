@@ -51,7 +51,6 @@ function getLongLat(address) {
 
 function renderMap(mapId) {
 	return mapData => {
-		console.log(mapData);
 		return new google.maps.Map(document.getElementById(mapId), mapData);
 	};
 }
