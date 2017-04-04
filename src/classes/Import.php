@@ -10,6 +10,7 @@ class Import
 	public static function init()
 	{
 		add_action('wp_ajax_ssn_validator_parse_csv', array('D3\\SSN\\Import', 'parseData'));
+		add_action('wp_ajax_nopriv_ssn_validator_parse_csv', array('D3\\SSN\\Import', 'parseData'));
 		add_action('wp_ajax_ssn_validator_import_data', array('D3\\SSN\\Import', 'importData'));
 	}
 
@@ -86,6 +87,7 @@ class Import
 	public static function parseCsv($filename)
 	{
 		ini_set('auto_detect_line_endings', true);
+		ini_set('memory_limit', '100m');
 
 		if (!\file_exists($filename) || !\is_readable($filename)) {
 			return false;
