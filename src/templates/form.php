@@ -30,17 +30,17 @@ use D3\SSN\Recaptcha;
 					/>
 				<small id="ssn_validator_form_response" class="ssn-validator-form-text"></small>
 			</div>
-			<div class="ssn-validator-input-container inline-container submit-container">
+			<?php
+				echo Recaptcha::render('ssn-validator-input-container inline-container')
+			?>
+			<div class="ssn-validator-input-container submit-container">
 				<input
-					class="ssn-validator-input"
+					class="ssn-validator-input btn red-btn"
 					type="submit"
 					name="ssn_validator_submit"
 					value="Search"
 					/>
 			</div>
-			<?php
-				echo Recaptcha::render()
-			?>
 		</div>
 	</form>
 </div>

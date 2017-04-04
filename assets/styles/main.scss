@@ -1,5 +1,9 @@
 @import "~jquery-ui-bundle/jquery-ui.css";
 @import "~jquery-ui-bundle/jquery-ui.theme.css";
+@import "utils/variables";
+@import "utils/responsive";
+
 @import "modules/forms";
 @import "modules/progressBar";
 @import "modules/table";
+@import "modules/results";

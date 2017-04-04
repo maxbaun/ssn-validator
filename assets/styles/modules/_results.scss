@@ -1,0 +1,46 @@
+.ssn-validator-results-wrapper{
+	margin-top: 30px;
+}
+
+.ssn-validator-result-block {
+	margin: 0 1%;
+	max-width: 46%;
+	width: 545px;
+	display: inline-block;
+
+	@include mobile () {
+		margin: 15px 0;
+		height: auto;
+		display: block;
+		width: 100%;
+		max-width: 100%;
+	}
+}
+
+.ssn-validator-results {
+	vertical-align: top;
+	table{
+		tr *:last-child {
+			text-align: right;
+		}
+	}
+}
+
+.ssn-validator-map {
+	background: $red;
+	height: 230px;
+}
+
+.ssn-validator-banner {
+	background-color: $red;
+	text-transform: uppercase;
+	color: white;
+	text-align: center;
+	padding: 7px 0;
+	line-height: 1;
+	visibility: middle;
+}
+
+.ssn-validator-result-error{
+	margin-bottom: 10px;
+}
