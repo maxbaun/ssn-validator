@@ -25,6 +25,7 @@ require_once plugin_dir_path(__FILE__) . 'src/classes/AdminExport.php';
 require_once plugin_dir_path(__FILE__) . 'src/classes/SSNData.php';
 require_once plugin_dir_path(__FILE__) . 'src/classes/Export.php';
 require_once plugin_dir_path(__FILE__) . 'src/classes/Import.php';
+require_once plugin_dir_path(__FILE__) . 'src/classes/Parser.php';
 
 use D3\SSN;
 use D3\SSN\Config;

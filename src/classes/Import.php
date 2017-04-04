@@ -4,13 +4,16 @@ namespace D3\SSN;
 
 use D3\SSN\Ajax;
 use D3\SSN\SSNData;
+use D3\SSN\Parser;
 
 class Import
 {
 	public static function init()
 	{
 		add_action('wp_ajax_ssn_validator_parse_csv', array('D3\\SSN\\Import', 'parseData'));
-		add_action('wp_ajax_nopriv_ssn_validator_parse_csv', array('D3\\SSN\\Import', 'parseData'));
+		// add_action('wp_ajax_nopriv_ssn_validator_parse_csv', array('D3\\SSN\\Import', 'parseData'));
+		add_action('wp_ajax_ssn_validator_parse_curl', array('D3\\SSN\\Import', 'multiThreadInit'));
+		add_action('wp_ajax_nopriv_ssn_validator_parse_curl', array('D3\\SSN\\Import', 'multiThreadInit'));
 		add_action('wp_ajax_ssn_validator_import_data', array('D3\\SSN\\Import', 'importData'));
 	}
 
@@ -47,6 +50,21 @@ class Import
 				'error' => $e->getMessage()
 			));
 		}
+	}
+
+	public static function multiThreadInit()
+	{
+		$filename = (isset($_POST['filename'])) ? $_POST['filename'] : 0;
+		$start = (isset($_POST['start'])) ? $_POST['start'] : 1;
+		$chunk = (isset($_POST['chunk'])) ? $_POST['chunk'] : 100;
+
+		$parser = new Parser($filename, $start, $chunk);
+		$parser->start();
+
+		Ajax::returnJson(array(
+			'status' => 1,
+			'data' => $parser->getData()
+		));
 	}
 
 	public static function parseData()
@@ -86,8 +104,7 @@ class Import
 
 	public static function parseCsv($filename)
 	{
-		ini_set('auto_detect_line_endings', true);
-		ini_set('memory_limit', '100m');
+		// ini_set('auto_detect_line_endings', true);
 
 		if (!\file_exists($filename) || !\is_readable($filename)) {
 			return false;
@@ -96,25 +113,33 @@ class Import
 		$return_data = array();
 
 		try {
-			$handle = \fopen($filename, 'r');
+			$contents = \file_get_contents($filename);
+			$rows = \explode("\n", $contents);
+			$total = count($rows);
+			$row = 1;
+			$chunk = 1000;
 
-			if ($handle) {
-				$row = 0;
+			while ($row < $total) {
+				$fields = array(
+					'body' => array(
+						'filename' => $filename,
+						'start' => $row,
+						'chunk' => $chunk,
+						'action' => 'ssn_validator_parse_curl'
+					),
+					'timeout' => 45
+				);
 
-				while (($data = \fgetcsv($handle, 0, ",")) !== false) {
-			        $num = \count($data);
-			        $row++;
-			        $row_data = array();
-			        for ($c=0; $c < $num; $c++) {
-						if ($row == 1) {
-							$header[] = $data[$c];
-						} else {
-							$return_data[$row-2][$header[$c]] = $data[$c];
-						}
-			        }
-			    }
+				$url = 'http://localhost/wp-admin/admin-ajax.php';
+				$result = \wp_remote_post($url, $fields);
+				$json = json_decode($result['body']);
+				$data = $json->data;
 
-				\fclose($handle);
+				foreach ($data as $d) {
+					$return_data[] = $d;
+				}
+
+				$row = $row + $chunk;
 			}
 		} catch (Exception $e) {
 
