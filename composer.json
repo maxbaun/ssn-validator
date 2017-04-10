@@ -4,8 +4,7 @@
     "type": "project",
     "require-dev": {
         "squizlabs/php_codesniffer": "^2.8",
-        "phpunit/phpunit": "^5.7",
-        "johnpbloch/wordpress": "^4.7"
+        "phpunit/phpunit": "^5.7"
     },
     "authors": [
         {

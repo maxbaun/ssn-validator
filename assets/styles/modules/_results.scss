@@ -29,8 +29,22 @@
 }
 
 .ssn-validator-map {
-	background: $red;
 	height: 230px;
+	background-color: $grey;
+	position: relative;
+}
+
+.ssn-validator-map-error {
+	position: absolute;
+	z-index: 999;
+	top: 0;
+	margin: 0 auto;
+	width: 100%;
+	text-align: center;
+	top: 50%;
+    font-size: 18px;
+	transform: translateY(-50%);
+
 }
 
 .ssn-validator-banner {
@@ -50,4 +64,12 @@
 #ssn_validator_result_map {
 	height: 100%;
 	width: 100%;
+}
+
+.ssn-validator-status-invalid {
+	color: $red;
+}
+
+.ssn-validator-status-valid {
+	color: $green;
 }

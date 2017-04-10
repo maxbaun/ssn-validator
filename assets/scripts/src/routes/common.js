@@ -77,7 +77,6 @@ function submit(form) {
 		e.preventDefault();
 
 		return validateForm()
-			.then(validateSsn)
 			.then(() => {
 				valid = true;
 				form.trigger('submit');
@@ -85,29 +84,6 @@ function submit(form) {
 			.catch(err => {
 				formError(err);
 			});
-	});
-}
-
-function validateSsn() {
-	const first = jQuery('.ssn-validator-form input[name="ssn_validator_first"]').first().val();
-	const second = jQuery('.ssn-validator-form input[name="ssn_validator_second"]').first().val();
-
-	const action = `${SSNVALIDATOR.ajaxUrl}`;
-	const formData = {
-		first,
-		second,
-		action: 'ssn_validator_validate_ssn'
-	};
-	return new Promise((resolve, reject) => {
-		jQuery.ajax({
-			url: action,
-			method: 'post',
-			dataType: 'json',
-			data: formData,
-			success: response => {
-				return (response.success) ? resolve(response.data) : reject(response.message);
-			}
-		});
 	});
 }
 

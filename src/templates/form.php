@@ -13,7 +13,7 @@ use D3\SSN\Recaptcha;
 					echo $label;
 				?>
 			</label>
-			<div class="ssn-validator-input-container inline-container inputs-container">
+			<div class="ssn-validator-input-container inputs-container">
 				<input
 					type="text"
 					name="ssn_validator_first"
@@ -28,12 +28,17 @@ use D3\SSN\Recaptcha;
 					maxlength="2"
 					value="<?php echo $second; ?>"
 					/>
+				<span class="ssn-validator-input-separator">-</span>
+				<span class="ssn-validator-input-placeholder">
+					XXXX
+					<span class="ssn-validator-input-placeholder-help">(from 0001-9999)</span>
+				</span>
 				<small id="ssn_validator_form_response" class="ssn-validator-form-text"></small>
 			</div>
 			<?php
 				echo Recaptcha::render('ssn-validator-input-container inline-container')
 			?>
-			<div class="ssn-validator-input-container submit-container">
+			<div class="ssn-validator-input-container inline-container submit-container">
 				<input
 					class="ssn-validator-input btn red-btn"
 					type="submit"

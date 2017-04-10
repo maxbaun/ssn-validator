@@ -1,3 +1,6 @@
+$firstColumnWidth: 304px;
+$secondColumnWidth: 140px;
+
 .ssn-validator-form-inner {
 	label {
 		display: block;
@@ -7,29 +10,55 @@
 
 .ssn-validator-input-container {
 	position: relative;
+	padding-bottom: 25px;
 
 	&.inline-container {
 		display: inline-block;
-		padding-bottom: 25px;
 		vertical-align: middle;
+	}
+
+	&.submit-container{
+		max-width: $secondColumnWidth;
+		text-align: center;
+	}
+
+	&.g-recaptcha{
+		margin-right: 20px;
 	}
 }
 
 input[type="text"].ssn-validator-input {
-	display: inline-block;
-	margin: auto;
-	text-align: center;
-	height: 78px;
-	font-size: 30px;
 	background-color: #f9f9f9;
-    border: 1px solid #d3d3d3;
+	border: 1px solid #d3d3d3;
 }
 
-.ssn-validator-form-text {
+input[type="text"].ssn-validator-input,
+.ssn-validator-input-placeholder{
+	font-size: 30px;
+	margin: auto;
+	display: inline-block;
+	height: 78px;
+	vertical-align: middle;
+	text-align: center;
+	margin-bottom: 15px;
+}
+
+.ssn-validator-input-placeholder {
+	max-width: $secondColumnWidth;
+}
+
+.ssn-validator-input-placeholder-help{
+	display: block;
+	font-size: 13px;
+	line-height: 1;
+}
+
+#ssn_validator_form_response {
 	opacity: 0;
 	position: absolute;
 	min-height: 25px;
 	display: block;
+	bottom: 10px;
 
 	&.active {
 		opacity: 1;
@@ -42,15 +71,17 @@ input[type="text"].ssn-validator-input {
 
 .ssn-validator-input-separator {
 	font-size: 20px;
-	margin-bottom: 12.5px;
 	display: inline-block;
 	vertical-align: middle;
+	margin-bottom: 10px;
+	width: 10px;
+	text-align: center;
 }
 
 .ssn-validator-input-first{
-	max-width: 130px;
+	max-width: ($firstColumnWidth * 2 / 3) - 10px;
 }
 
 .ssn-validator-input-second{
-	max-width: 80px;
+	max-width: ($firstColumnWidth / 3) - 10px;
 }
