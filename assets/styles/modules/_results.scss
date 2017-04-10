@@ -1,5 +1,6 @@
 .ssn-validator-results-wrapper{
 	margin-top: 30px;
+	line-height: 1.75;
 }
 
 .ssn-validator-result-block {
@@ -22,6 +23,12 @@
 .ssn-validator-results {
 	vertical-align: top;
 	table{
+		border: none;
+
+		th, tr, td {
+			border: none;
+		}
+
 		tr *:last-child {
 			text-align: right;
 		}
