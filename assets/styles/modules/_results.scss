@@ -73,6 +73,10 @@
 	width: 100%;
 }
 
+.ssn-validator-status {
+	font-weight: bold !important;
+}
+
 .ssn-validator-status-invalid {
 	color: $red;
 }

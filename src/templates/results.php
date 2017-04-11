@@ -19,7 +19,7 @@
 						<td><?php echo $data->date->format('F j, Y'); ?></td>
 					</tr>
 					<tr>
-						<th>Sate of Issuance</th>
+						<th>State of Issuance</th>
 						<td><?php echo $data->state; ?></td>
 					</tr>
 					<tr>
@@ -32,7 +32,7 @@
 					</tr>
 					<tr>
 						<th>Status</th>
-						<td class="ssn-validator-status-<?php echo $data->statusClass; ?>"><?php echo $data->status; ?></td>
+						<td class="ssn-validator-status ssn-validator-status-<?php echo $data->statusClass; ?>"><?php echo $data->status; ?></td>
 					</tr>
 				</tbody>
 			</table>

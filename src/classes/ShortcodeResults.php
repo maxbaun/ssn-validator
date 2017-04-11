@@ -40,11 +40,14 @@ class ShortcodeResults
 				'valid' => false
 			);
 		} else {
+			$issued = self::getIssuedByRange($data[0]->first_issued, $data[0]->last_issued);
+			$age = self::getAgeByRange($data[0]->first_issued, $data[0]->last_issued);
+
 			$data = (object)array(
 				'ssn' => $data[0]->ssn,
 				'state' => $data[0]->state,
-				'issued' => $data[0]->first_issued . '-' . $data[0]->last_issued,
-				'age' => $data[0]->age,
+				'issued' => $issued,
+				'age' => $age,
 				'status' => $validMessage,
 				'statusClass' => 'valid',
 				'valid' => true
@@ -52,6 +55,38 @@ class ShortcodeResults
 		}
 
 		return self::renderResults($data);
+	}
+
+	public static function getIssuedByRange($firstIssued = null, $lastIssued = null)
+	{
+		if (empty($lastIssued) || $lastIssued === 'unknown') {
+			return $firstIssued;
+		}
+
+		if (empty($firstIssued) || $firstIssued === 'unknown') {
+			return $lastIssued;
+		}
+
+		return "$firstIssued - $lastIssued";
+	}
+
+	public static function getAgeByRange($firstIssued = null, $lastIssued = null)
+	{
+		$currentYear = date("Y");
+
+		if ((empty($firstIssued) || $firstIssued === 'unknown') && (empty($lastIssued) || $lastIssued === 'unknown')) {
+			return "Not Available";
+		}
+
+		if (empty($firstIssued) || $firstIssued === 'unknown') {
+			return (int)$currentYear - (int)$lastIssued;
+		}
+
+		if (empty($lastIssued) || $lastIssued === 'unknown') {
+			return (int)$currentYear - (int)$firstIssued;
+		}
+
+		return ((int)$currentYear - (int)$lastIssued) . ' to ' . ((int)$currentYear - (int)$firstIssued) . ' yrs';
 	}
 
 	private static function renderResults($data)
