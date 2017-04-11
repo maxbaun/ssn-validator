@@ -4,7 +4,7 @@
 Plugin Name: SSN Validator
 Plugin URI: http://d3applications.com
 Description: A plugin for validating SSNs
-Version: 1.1.1
+Version: 1.1.2
 Author: Max Baun
 Author URI: http://github.com/maxbaun
 License: GPL2

@@ -1,6 +1,6 @@
 {
     "name": "maxbaun/ssn",
-	"version" : "1.1.1",
+	"version" : "1.1.2",
     "description": "SSN Lookup Plugin for Wordpress",
     "type": "project",
     "require-dev": {
